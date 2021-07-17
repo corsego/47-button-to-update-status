@@ -1,8 +1,18 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :set_post, only: %i[ show edit update destroy  ]
 
   def index
     @posts = Post.order(created_at: :desc)
+  end
+
+  def update_status
+    @post = Post.find(params[:id])
+    if params[:status].present? && Post::STATUSES.include?(params[:status].to_sym)
+      @post.update(status: params[:status])
+      redirect_to @post, notice: "Status changed to #{@post.status}"
+    else
+      redirect_to @post, alert: "Stop hacking"
+    end
   end
 
   def show

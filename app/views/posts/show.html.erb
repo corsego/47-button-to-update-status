@@ -4,6 +4,14 @@
 </p>
 
 <p>
+  <strong>status:</strong>
+  <%= @post.status %>
+  <% Post::STATUSES.each do |status| %>
+    <%= link_to_unless @post.status.eql?(status.to_s), status, update_status_post_path(@post, status: status), method: :patch %>
+  <% end %>
+</p>
+
+<p>
   <strong>Content:</strong>
   <%= simple_format(@post.content) %>
 </p>
